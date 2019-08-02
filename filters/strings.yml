@@ -1,0 +1,34 @@
+- name: Strings Example 
+  hosts: localhost 
+  vars: 
+    t_string: i love Ansible
+  tasks:
+  - name: Show capitalize example
+    debug:
+      var: t_string | capitalize
+    ## The same As
+    #debug:
+    #  msg: "{{ t_string | capitalize }}"
+    #
+  # Put a string in downcase 
+  - name: Put all caracters in downcase 
+    debug:
+      var: t_string | lower   
+  # Put a string in Upcase  
+  - name: Put all caracters in upcase 
+    debug:
+      var: t_string | upper
+  
+  # Convert a string into a list of caracters 
+  - name: Put all caracters in list  
+    debug:
+      var: (t_string | list) 
+
+  # Join a string caracters with a 
+  - name: Join a string caracters 
+    debug:
+      var: t_string | list  | join('.')
+  # Split a string into words 
+  - name: Split a string into a set of words 
+    debug:
+      var: t_string.split(" ")

@@ -1,0 +1,60 @@
+- name: Working With Lists 
+  hosts: localhost 
+  vars:
+    num_list:
+      - 1
+      - 5
+      - 6
+      - 0
+    list_of_list:
+      - [1,3,5]
+      - [2,2]
+      - [1,2,3]
+    big_list:
+      - a
+      - z
+      - c
+      - f
+      - a 
+      - Z
+      - r 
+  tasks: 
+  ### Get the Maximum of a list 
+  - name: Getting maximum from with numerical list 
+    debug:
+      var: num_list | max
+  ### Get The minimum of a list 
+  - name: Getting minimum from the numerical list 
+    debug:
+      var: num_list | min
+  ### Flattening a list of list
+  - name: Flattening a list of list 
+    debug:
+      var: list_of_list | flatten
+
+  ### Get the length of a list  
+  - name: Getting the length of a list 
+    debug:
+      var: list_of_list | length   
+  ### Get the first element of a list 
+  - name: Get the fisrt element of a list 
+    debug:
+      var: list_of_list | first    
+
+  ### Get the last element of a list 
+  - name: Get the maximum from a list of list 
+    debug:
+      var: list_of_list | max 
+
+  ### Get the SUM in a list of list 
+  - name: Get the sul of the list of list 
+    debug:
+      var: list_of_list | flatten |sum 
+  ### Converting a list into a set (Getting unique elements)
+  ### Do not mix strings floats and integers 
+  - name: Getting a set from a list 
+    debug:
+      var: list_of_list | flatten | unique
+  - name: Ordering a list 
+    debug:
+      var: big_list | sort  
