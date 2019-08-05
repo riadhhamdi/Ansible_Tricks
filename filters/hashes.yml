@@ -1,0 +1,24 @@
+- hosts: localhost 
+  gather_facts: no
+  tasks:
+
+  ## Hash generation from a string 
+  - name: generate a hash sha1 from a string
+    debug:
+      msg: "{{ 'hello' | hash('sha1') }}"
+  - name: generate a hash sha512 from a string
+    debug:
+      msg: "{{ 'hello' | hash('sha512') }}"
+  - name: generate a password sha512 hash from a string
+    debug:
+      msg: "{{ 'hello' | password_hash('sha512') }}"
+  - name: generate a password sha256 hash from a string
+    debug:
+      msg: "{{ 'hello' | password_hash('sha256') }}"
+  ## String encoding and decoding 
+  - name: encode a srtring base 64
+    debug:
+      msg: "{{'hello' | b64encode }}"
+  - name: decode a srtring base 64
+    debug:
+      msg: "{{'aGVsbG8=' | b64decode }}"

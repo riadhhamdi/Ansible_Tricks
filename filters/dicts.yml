@@ -1,0 +1,29 @@
+- hosts: localhost 
+  gather_facts: no
+  vars:
+    users:
+      - name: bob
+        group: admins
+      - name: john 
+        group: wheel
+      - name: greg 
+        group: staff
+    dict1:
+      Douglas: Human
+      Marvin: Robot
+      Arthur: Human
+  tasks:
+  - name: Get all groups from dict {{ users }}
+    debug:
+      var: users
+  - name: "Get The dicttoitems from {{users}}"
+    debug:
+      var: item | dict2items
+    loop: "{{users}}"
+     
+  - name: Get all groups from dict {{ dict1 }}
+    debug:
+      var: dict1
+  - name: "Get The dicttoitems from {{dict1}}"
+    debug:
+      var: dict1 | dict2items
