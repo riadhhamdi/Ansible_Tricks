@@ -1,8 +1,6 @@
 - name: Working With Lists 
   hosts: localhost 
   vars:
-    list_1: [1,2,3,a,b,c]
-    list_2: [1,2,3,x,y,z]
     num_list:
       - 1
       - 5
@@ -60,21 +58,7 @@
   - name: Ordering a list 
     debug:
       var: big_list | sort  
-  ### Invert a list order
-  ### Note: In order to get a list object you should map this to a list  
+  ### Invert a list order 
   - name: Inverting a list order 
     debug:
-      var: big_list | sort | reverse | list
-
-  ### Getting the difference between two list 
-  - name: Difference between two lists 
-    debug: 
-      var: list_of_list | flatten | list |  difference(num_list)
-  ### Getting the union of two lists 
-  - name: Getting the union of two lists
-    debug: 
-      var: list_1 | union(list_2)
-  ### Getting the intersection of two lists 
-  - name: Getting the intersection of lists 
-    debug:
-      var: list_1 | intersect(list_2)
+      var: big_list | sort | reverse | list 
