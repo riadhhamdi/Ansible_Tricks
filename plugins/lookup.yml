@@ -1,0 +1,53 @@
+### Lookup is a super powerful plugin that can be used to lookup files, ips, keyrings, secrets , etc...
+#
+#Lookup plugins allow Ansible to access data from outside sources.
+#This can include reading the filesystem in addition to contacting
+#external datastores and services. Like all templating, these plugins
+#are evaluated on the Ansible control machine, not on the target/remote.
+#
+#The data returned by a lookup plugin is made available using the 
+#standard templating system in Ansible, and are typically used to
+#load variables or templates with information from those systems.
+#
+#Lookups are an Ansible-specific extension to the Jinja2 templating language.#
+
+
+- hosts: localhost 
+  gather_facts: no
+  vars:
+    version: 1.0
+    date: '2019-08-06'
+  tasks:
+  ###lookup templates examples 
+  - name: Example using lookup with templates $
+    debug:
+      msg: "{{lookup('template','./template.j2')}}"
+         
+                ## Same example ##
+  - name: Example using lookup with templates $
+    debug:
+      var: lookup('template','template.j2')
+  ### lookup files examples 
+  - name: Example of looking up files 
+    debug:
+      var: lookup('file', '/etc/hosts')
+      
+  ### Getting an environment Variable from the control node 
+  - name: Example of lookup with environment variables 
+    debug:
+      var: lookup('env', 'SHELL')
+
+  ### Getting the output of a command on the control node 
+  - name: Example of lookup the output of a command 
+    debug:
+      var: lookup('pipe', 'cat /etc/passwd')
+
+              ### Same example using query ###
+  - name: Getting the output on multiple lines 
+    debug: 
+      var: query('lines', 'cat /etc/passwd')
+    register: etc_passwd_lines
+  - name: debug each line separately
+    debug:
+      msg: "{{item}}"
+    with_items: "{{ query('lines', 'cat /etc/passwd') }}"
