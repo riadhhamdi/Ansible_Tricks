@@ -1,0 +1,14 @@
+- hosts: localhost 
+  tags:
+    - test   ### To tag an entire play
+  tasks:
+  - name: Showing message before installation 
+    debug:
+      msg: "If you see this message -> The playbook has been run with the tag test"
+    tags:
+      - test 
+  - name: Do the installation 
+    debug:
+      msg: "{{lookup('pipe', 'id')}}"
+    tags:
+      - prod ## Tag a specific task
