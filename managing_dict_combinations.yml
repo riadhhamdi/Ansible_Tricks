@@ -1,0 +1,78 @@
+- hosts: localhost
+  vars:
+    bigdict: {}
+    mydict: {}
+    dict1:
+      key1: value1
+      key2: value2
+      key3: value3
+    dict2:
+      key4: value4
+      key5: value5
+      key2: valueXYZ
+    dict3:
+      hashkey1:
+        keya: valueA
+        keyb: valueB
+      hashkey2:
+        keyc: valueC
+        keyd: valueD
+    dict4:
+      hashkey3:
+        keya: valueA
+        keyb: valueB
+      hashkey2:
+        keyc: valueABC
+        keyd: valueCBA
+
+  tasks:
+#  - name: show dict merging results
+#    debug:
+#      var: dict1 | combine(dict2)
+#
+#  - name: show dict merging results (Inverted)
+#    debug:
+#      var: dict2 | combine(dict1)
+#  - name: show dict merging results (Inverted)
+#    debug:
+#      var: dict3 | combine(dict4)
+  - name: Show operation sequence
+    debug:
+     #bigdict: "{{bigdict| combine({item.key: minidict})}}"
+      var: mydict
+    loop: "{{lookup('dict',dict4)}}"
+    vars:
+      minidict: "{{item.value | combine(dict1)}}"
+      intdict: "{{{item.key : minidict}}}"
+
+  - name: Construct operation sequence
+    set_fact:
+     #bigdict: "{{bigdict| combine({item.key: minidict})}}"
+      mgmt: "{{ mgmt|d({})|combine({item.key : intdict}) }}"
+    loop: "{{lookup('dict',dict4)}}"
+    vars:
+      minidict: "{{item.value | combine(dict1)}}"
+      intdict: "{{{item.key : minidict}}}"
+  - name: Show dict combination
+    debug:
+     #bigdict: "{{bigdict| combine({item.key: minidict})}}"
+      var: mgmt
+  - name: loop over dict4
+    set_fact:
+      bigdict: "{{bigdict| combine({item.key: minidict})}}"
+    loop: "{{lookup('dict',dict4)}}"
+    vars:
+      minidict: "{{item | combine(dict1)}}"
+  - name: Show bigdict result
+    debug:
+     #bigdict: "{{bigdict| combine({item.key: minidict})}}"
+      var: bigdict
+#  - name: Merging bigdict with another dict
+#    set_fact:
+#      bigdict: "{{bigdict | combine(dict4)}}"
+#  - name: Merging bigdict with another dict
+#    set_fact:
+#      bigdict: "{{bigdict | combine(dict3)}}"
+  - name: Show bigdict content
+    debug:
+      var: bigdict
